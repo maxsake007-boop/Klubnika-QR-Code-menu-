@@ -1,0 +1,6 @@
+{
+  "name": "POS Терминал",
+  "description": "Универсальная система кассового терминала и управления залом с интерактивной картой столов, списком заказов и настройкой меню",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
