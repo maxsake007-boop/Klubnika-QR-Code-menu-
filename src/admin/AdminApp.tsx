@@ -15,7 +15,11 @@ import { Footer } from './components/Footer';
 import { ToastContainer, ToastMessage } from './components/Toast';
 import { formatMoney } from './utils/format';
 
-export default function App() {
+export interface AdminAppProps {
+  onLogout?: () => void;
+}
+
+export default function App({ onLogout }: AdminAppProps = {}) {
   // Navigation & Views
   const [activeTab, setActiveTab] = useState<ActiveTab>('orders');
   const [viewMode, setViewMode] = useState<ViewMode>('floor');
@@ -406,6 +410,7 @@ export default function App() {
       <Header
         activeTab={activeTab}
         onTabChange={handleTabChange}
+        onLogout={onLogout}
       />
 
       {/* Main Content Area */}

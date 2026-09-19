@@ -4,11 +4,13 @@ import { ActiveTab } from '../types';
 interface HeaderProps {
   activeTab: ActiveTab;
   onTabChange: (tab: ActiveTab) => void;
+  onLogout?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   onTabChange,
+  onLogout,
 }) => {
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-[#ffffff]/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(220,38,38,0.05)] border-b border-[#ffe9e2]">
@@ -47,7 +49,24 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </nav>
         </div>
+
+        {/* Right: Logout */}
+        {onLogout && (
+          <div className="flex items-center">
+            <button
+              id="header-logout-btn"
+              type="button"
+              onClick={onLogout}
+              className="px-3.5 py-1.5 rounded-full bg-[#fef2f2] hover:bg-[#fee2e2] border border-[#fecaca] text-[#dc2626] text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+              title="Выйти из админ-панели"
+            >
+              <span className="material-symbols-outlined text-[18px]">logout</span>
+              <span>Выйти</span>
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );
 };
+
