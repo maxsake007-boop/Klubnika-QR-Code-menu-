@@ -109,20 +109,15 @@ input[type="number"] {
    Applies ONLY when:
    1. html.admin-page or body.admin-page
    2. Screen width <= 1024px AND screen height <= 550px
-   → Scales down the entire desktop layout proportionally (default 50%, i.e. 2x smaller)
-   → At 960px width with 0.5 zoom, the layout renders as 1920px (Full HD Desktop)
+   → Scales down the entire desktop layout proportionally by 85%
    → Everything fits on the screen, exactly like on PC, but scaled down
    → Desktop monitor (width > 1024px OR height > 550px) is 100% UNTOUCHED
    ============================================================ */
 @media (max-width: 1024px) and (max-height: 550px) {
   html.admin-page,
   body.admin-page {
-    zoom: var(--tablet-zoom, 0.85);
+    zoom: 0.85;
     -webkit-text-size-adjust: 100%;
-  }
-
-  .tab-zoom-pill {
-    display: inline-flex !important;
   }
 }
 
