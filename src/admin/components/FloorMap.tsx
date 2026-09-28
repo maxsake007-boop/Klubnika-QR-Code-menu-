@@ -134,8 +134,8 @@ export const FloorMap: React.FC<FloorMapProps> = ({
           </div>
         </div>
 
-        {/* 4-column Grid (reduced from 6 to give tables spacious width) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4.5">
+        {/* 3-column Grid for spacious table cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-3 sm:gap-4.5">
           {mainTables.map((table) => {
             const order = table.currentOrderId ? orders[table.currentOrderId] || null : null;
             const isSelected = selectedTableId === table.id;
@@ -175,8 +175,8 @@ export const FloorMap: React.FC<FloorMapProps> = ({
           </div>
         </div>
 
-        {/* 4-column Grid (reduced from 6 to give tables spacious width) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4.5">
+        {/* 3-column Grid for spacious table cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-3 sm:gap-4.5">
           {terraceTables.map((table) => {
             const order = table.currentOrderId ? orders[table.currentOrderId] || null : null;
             const isSelected = selectedTableId === table.id;

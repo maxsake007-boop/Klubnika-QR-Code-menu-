@@ -117,7 +117,7 @@ input[type="number"] {
 @media (max-width: 1024px) and (max-height: 550px) {
   html.admin-page,
   body.admin-page {
-    zoom: var(--tablet-zoom, 0.5);
+    zoom: var(--tablet-zoom, 0.85);
     -webkit-text-size-adjust: 100%;
   }
 

@@ -14,13 +14,13 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [zoomLevel, setZoomLevel] = useState<number>(() => {
     try {
-      const saved = localStorage.getItem('pos_tablet_zoom');
+      const saved = localStorage.getItem('pos_tablet_zoom_v2');
       if (saved) {
         const parsed = Number(saved);
-        if (parsed >= 0.35 && parsed <= 0.8) return parsed;
+        if (parsed >= 0.4 && parsed <= 1.0) return parsed;
       }
     } catch {}
-    return 0.5; // Default: 50% (scaled down 2x)
+    return 0.85; // Default: 85% (as requested by user)
   });
 
   useEffect(() => {
@@ -47,9 +47,9 @@ export const Header: React.FC<HeaderProps> = ({
   const handleZoomChange = (delta: number) => {
     setZoomLevel((prev) => {
       const next = Math.round((prev + delta) * 100) / 100;
-      const clamped = Math.max(0.35, Math.min(0.75, next));
+      const clamped = Math.max(0.4, Math.min(1.0, next));
       try {
-        localStorage.setItem('pos_tablet_zoom', String(clamped));
+        localStorage.setItem('pos_tablet_zoom_v2', String(clamped));
       } catch {}
       return clamped;
     });
