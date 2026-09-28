@@ -127,9 +127,9 @@ export const DeleteConfirmPinModal: React.FC<DeleteConfirmPinModalProps> = ({
     : 'Позиция будет удалена из меню кассы. Для подтверждения введите PIN-код администратора.';
 
   return (
-    <div className="tab-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
       <div
-        className={`tab-modal-card bg-white rounded-2xl shadow-2xl border border-[#ffe2d8] w-full max-w-sm p-6 sm:p-7 flex flex-col items-center text-center gap-4 transition-transform overflow-y-auto ${
+        className={`bg-white rounded-2xl shadow-2xl border border-[#ffe2d8] w-full max-w-sm p-6 sm:p-7 flex flex-col items-center text-center gap-4 transition-transform ${
           isShaking ? 'animate-shake' : ''
         }`}
       >

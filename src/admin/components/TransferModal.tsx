@@ -32,10 +32,10 @@ export const TransferModal: React.FC<TransferModalProps> = ({
   };
 
   return (
-    <div className="tab-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="tab-modal-card bg-white rounded-xl shadow-2xl border border-[#ffe2d8] w-full max-w-md overflow-hidden flex flex-col">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="bg-white rounded-xl shadow-2xl border border-[#ffe2d8] w-full max-w-md overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="tab-modal-header bg-[#fff1ec] px-6 py-4 border-b border-[#ffe2d8] flex items-center justify-between">
+        <div className="bg-[#fff1ec] px-6 py-4 border-b border-[#ffe2d8] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-10 h-10 rounded-lg bg-[#dc2626] text-white flex items-center justify-center shadow-xs">
               <span className="material-symbols-outlined text-[20px]">sync_alt</span>
@@ -55,7 +55,7 @@ export const TransferModal: React.FC<TransferModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="tab-modal-body p-6 flex flex-col gap-4">
+        <div className="p-6 flex flex-col gap-4">
           <div className="bg-[#fff8f6] p-3 rounded-xl border border-[#ffe2d8] text-xs flex items-center justify-between">
             <span className="text-[#5c403c]">Текущий стол:</span>
             <span className="font-bold text-[#dc2626]">
@@ -97,7 +97,7 @@ export const TransferModal: React.FC<TransferModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="tab-modal-footer bg-[#fff1ec] px-6 py-4 border-t border-[#ffe2d8] flex items-center justify-between gap-3">
+        <div className="bg-[#fff1ec] px-6 py-4 border-t border-[#ffe2d8] flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={onClose}

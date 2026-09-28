@@ -414,13 +414,13 @@ export default function App({ onLogout }: AdminAppProps = {}) {
       />
 
       {/* Main Content Area */}
-      <main className="tab-main w-full pt-16 flex-1 flex flex-col bg-[#ffffff]">
+      <main className="w-full pt-16 flex-1 flex flex-col bg-[#ffffff]">
         {/* Tab 1: Orders & Floor Workspace */}
         {activeTab === 'orders' && (
-          <div className="tab-pos-workspace w-full px-4 sm:px-6 lg:px-10 py-6 flex-1">
-            <div className="tab-pos-grid grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div className="w-full px-4 sm:px-6 lg:px-10 py-6 flex-1">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
               {/* Left Column (8 cols): Floor Map or Orders List */}
-              <section className="tab-pos-left lg:col-span-8 flex flex-col gap-6">
+              <section className="lg:col-span-8 flex flex-col gap-6">
                 {viewMode === 'floor' ? (
                   <FloorMap
                     tables={tables}
@@ -447,7 +447,7 @@ export default function App({ onLogout }: AdminAppProps = {}) {
               </section>
 
               {/* Right Column (4 cols): Order Inspector / Receipt Details */}
-              <section className="tab-pos-right lg:col-span-4 flex flex-col gap-6 sticky top-24">
+              <section className="lg:col-span-4 flex flex-col gap-6 sticky top-24">
                 <OrderInspector
                   order={currentOrder}
                   table={currentTable}

@@ -102,10 +102,10 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
   };
 
   return (
-    <div className="tab-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="tab-modal-card bg-white rounded-2xl shadow-2xl border border-[#ffe2d8] w-full max-w-4xl overflow-hidden flex flex-col h-[90vh]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="bg-white rounded-2xl shadow-2xl border border-[#ffe2d8] w-full max-w-4xl overflow-hidden flex flex-col h-[90vh]">
         {/* Header */}
-        <div className="tab-modal-header bg-[#fff1ec] px-6 py-4 border-b border-[#ffe2d8] flex items-center justify-between">
+        <div className="bg-[#fff1ec] px-6 py-4 border-b border-[#ffe2d8] flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-[#dc2626] text-white flex items-center justify-center shadow-xs">
               <span className="material-symbols-outlined text-[22px]">restaurant_menu</span>
@@ -135,7 +135,7 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
         </div>
 
         {/* Content split in 2 columns */}
-        <div className="tab-modal-body flex-1 flex flex-col md:flex-row overflow-hidden">
+        <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
           {/* Left: Menu catalog */}
           <div className="flex-1 flex flex-col p-4 sm:p-5 border-b md:border-b-0 md:border-r border-[#ffe2d8] overflow-y-auto">
             {/* Automatic Table Info Banner (No dropdown, No waiter/pos/qr toggle) */}

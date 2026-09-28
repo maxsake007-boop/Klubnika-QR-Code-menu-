@@ -112,7 +112,7 @@ export const FloorMap: React.FC<FloorMapProps> = ({
       </div>
 
       {/* Main Hall Card */}
-      <div className="tab-floor-card bg-white p-6 rounded-xl shadow-sm border border-[#ffe2d8] flex flex-col gap-4">
+      <div className="bg-white p-6 rounded-xl shadow-sm border border-[#ffe2d8] flex flex-col gap-4">
         <div className="flex items-center justify-between pb-2 border-b border-[#ffe2d8]">
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-[#b70011] text-[22px]">storefront</span>
@@ -153,7 +153,7 @@ export const FloorMap: React.FC<FloorMapProps> = ({
       </div>
 
       {/* Terrace Card */}
-      <div className="tab-floor-card bg-white p-6 rounded-xl shadow-sm border border-[#ffe2d8] flex flex-col gap-4">
+      <div className="bg-white p-6 rounded-xl shadow-sm border border-[#ffe2d8] flex flex-col gap-4">
         <div className="flex items-center justify-between pb-2 border-b border-[#ffe2d8]">
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-[#006e2d] text-[22px]">deck</span>

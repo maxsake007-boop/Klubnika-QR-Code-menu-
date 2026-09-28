@@ -103,7 +103,7 @@ export const OrdersList: React.FC<OrdersListProps> = ({
       </div>
 
       {/* Header & Status Filter Bar Card */}
-      <div className="tab-floor-card flex flex-col gap-4 bg-white p-6 rounded-xl shadow-sm border border-[#ffe2d8]">
+      <div className="flex flex-col gap-4 bg-white p-6 rounded-xl shadow-sm border border-[#ffe2d8]">
         <div className="flex items-center justify-between">
           <div className="flex items-baseline gap-2">
             <h1 className="text-2xl font-bold text-[#2a170f]">Текущие заказы</h1>

@@ -46,6 +46,20 @@ export default function App() {
 
   const isAdminRoute = currentPath.startsWith('/admin');
 
+  useEffect(() => {
+    if (isAdminRoute) {
+      document.documentElement.classList.add('admin-page');
+      document.body.classList.add('admin-page');
+    } else {
+      document.documentElement.classList.remove('admin-page');
+      document.body.classList.remove('admin-page');
+    }
+    return () => {
+      document.documentElement.classList.remove('admin-page');
+      document.body.classList.remove('admin-page');
+    };
+  }, [isAdminRoute]);
+
   if (isAdminRoute) {
     if (!isAdminAuthenticated) {
       return (

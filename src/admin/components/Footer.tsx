@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="tab-footer w-full bg-white py-3 border-t border-[#ffe2d8] shadow-[0_-1px_8px_rgba(220,38,38,0.03)] mt-auto">
+    <footer className="w-full bg-white py-3 border-t border-[#ffe2d8] shadow-[0_-1px_8px_rgba(220,38,38,0.03)] mt-auto">
       <div className="w-full px-4 sm:px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-2">
         <div className="flex items-center gap-3 text-xs text-[#5c403c]">
           <span className="font-semibold text-[#2a170f]">Терминал POS #01</span>
