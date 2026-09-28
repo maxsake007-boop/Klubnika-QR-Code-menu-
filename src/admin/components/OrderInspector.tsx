@@ -23,7 +23,7 @@ export const OrderInspector: React.FC<OrderInspectorProps> = ({
   // Case 1: Neither table nor order selected
   if (!table && !order) {
     return (
-      <div className="bg-white p-8 rounded-xl shadow-md border border-[#ffe2d8] flex flex-col items-center justify-center text-center min-h-[420px]">
+      <div className="tab-inspector-card bg-white p-8 rounded-xl shadow-md border border-[#ffe2d8] flex flex-col items-center justify-center text-center min-h-[420px]">
         <div className="w-16 h-16 rounded-xl bg-[#fff1ec] flex items-center justify-center text-[#dc2626] mb-4">
           <span className="material-symbols-outlined text-[32px]">touch_app</span>
         </div>
@@ -41,7 +41,7 @@ export const OrderInspector: React.FC<OrderInspectorProps> = ({
     return (
       <div
         id="order-inspector"
-        className="bg-white p-6 rounded-xl shadow-lg border border-[#ffe2d8] flex flex-col gap-5 ring-2 ring-[#dc2626]"
+        className="tab-inspector-card bg-white p-6 rounded-xl shadow-lg border border-[#ffe2d8] flex flex-col gap-5 ring-2 ring-[#dc2626]"
       >
         {/* Header */}
         <div className="flex items-start justify-between pb-3 border-b border-[#ffe2d8]">
@@ -101,7 +101,7 @@ export const OrderInspector: React.FC<OrderInspectorProps> = ({
   return (
     <div
       id="order-inspector"
-      className="bg-white p-6 rounded-xl shadow-lg border border-[#ffe2d8] flex flex-col gap-4 ring-2 ring-[#dc2626]"
+      className="tab-inspector-card bg-white p-6 rounded-xl shadow-lg border border-[#ffe2d8] flex flex-col gap-4 ring-2 ring-[#dc2626]"
     >
       {/* Header */}
       <div className="flex items-start justify-between pb-3 border-b border-[#ffe2d8]">
@@ -142,7 +142,7 @@ export const OrderInspector: React.FC<OrderInspectorProps> = ({
       </div>
 
       {/* Itemized list */}
-      <div id="inspect-items" className="flex flex-col gap-1.5 max-h-[300px] overflow-y-auto pr-1">
+      <div id="inspect-items" className="tab-inspector-items flex flex-col gap-1.5 max-h-[300px] overflow-y-auto pr-1">
         {currentOrder.items.map((item) => (
           <div
             key={item.id}
@@ -183,7 +183,7 @@ export const OrderInspector: React.FC<OrderInspectorProps> = ({
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-col gap-2 pt-1">
+      <div className="tab-inspector-actions flex flex-col gap-2 pt-1">
         {/* Add more snacks/drinks directly to this table's check */}
         {currentOrder.status !== 'paid' && (
           <button

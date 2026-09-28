@@ -13,8 +13,8 @@ export const Header: React.FC<HeaderProps> = ({
   onLogout,
 }) => {
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[#ffffff]/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(220,38,38,0.05)] border-b border-[#ffe9e2]">
-      <div className="h-16 w-full px-4 sm:px-6 lg:px-10 flex items-center justify-between">
+    <header className="tab-header fixed top-0 left-0 w-full z-50 bg-[#ffffff]/95 backdrop-blur-xl shadow-[0_1px_8px_rgba(220,38,38,0.05)] border-b border-[#ffe9e2]">
+      <div className="tab-header-inner h-16 w-full px-4 sm:px-6 lg:px-10 flex items-center justify-between">
         {/* Left: Navigation */}
         <div className="flex items-center gap-4 sm:gap-6">
           <nav

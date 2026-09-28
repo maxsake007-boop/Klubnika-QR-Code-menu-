@@ -72,9 +72,9 @@ export const AdminLogin: React.FC<AdminLoginProps> = ({
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center justify-center p-4 bg-[#fff8f6] text-[#2a170f]">
+    <div className="tab-modal-overlay min-h-screen w-full flex flex-col items-center justify-center p-4 bg-[#fff8f6] text-[#2a170f]">
       {/* Login Card */}
-      <div className="w-full max-w-sm bg-white rounded-3xl border border-[#ffe4dc] shadow-xl p-6 sm:p-8">
+      <div className="tab-login-card w-full max-w-sm bg-white rounded-3xl border border-[#ffe4dc] shadow-xl p-6 sm:p-8">
         {/* Top Icon & Title */}
         <div className="text-center mb-6">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[#dc2626] text-white shadow-md mb-3">

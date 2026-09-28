@@ -833,9 +833,9 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
             onClick={handleCloseDrawer}
           />
 
-          <div className="relative w-screen max-w-xl sm:max-w-2xl bg-white shadow-2xl flex flex-col z-10 border-l border-[#ffe2d8] transform transition-transform duration-300 ease-in-out">
+          <div className="tab-drawer relative w-screen max-w-xl sm:max-w-2xl bg-white shadow-2xl flex flex-col z-10 border-l border-[#ffe2d8] transform transition-transform duration-300 ease-in-out">
             {/* Drawer Header */}
-            <div className="p-6 sm:p-7 bg-[#fff1ec] flex items-center justify-between border-b border-[#ffe2d8]">
+            <div className="tab-drawer-header p-6 sm:p-7 bg-[#fff1ec] flex items-center justify-between border-b border-[#ffe2d8]">
               <div className="flex flex-col gap-0.5">
                 <span className="text-[#dc2626] text-xs font-black uppercase tracking-wider">
                   Параметры карточки
@@ -858,7 +858,7 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
             {/* Drawer Body Form */}
             <form
               onSubmit={handleSaveDrawer}
-              className="flex-1 overflow-y-auto p-6 sm:p-8 flex flex-col gap-6"
+              className="tab-drawer-body flex-1 overflow-y-auto p-6 sm:p-8 flex flex-col gap-6"
             >
               {/* Name */}
               <div className="flex flex-col gap-2">
@@ -906,7 +906,7 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
 
                 {/* Dropdown Popover Menu */}
                 {isCategoryDropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-1.5 z-50 bg-white rounded-2xl shadow-xl border-2 border-[#ffe2d8] p-2 flex flex-col gap-1 overflow-hidden animate-fade-in">
+                  <div className="tab-category-dropdown absolute top-full left-0 right-0 mt-1.5 z-50 bg-white rounded-2xl shadow-xl border-2 border-[#ffe2d8] p-2 flex flex-col gap-1 overflow-hidden animate-fade-in">
                     {categories.map((cat) => {
                       const isSelected = formCategoryKey === cat.key;
                       return (
@@ -1023,7 +1023,7 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
                 </div>
 
                 {/* Large Photo Preview Frame */}
-                <div className="w-full h-48 sm:h-56 rounded-2xl bg-[#fff1ec] border-2 border-[#ffe2d8] overflow-hidden relative flex items-center justify-center shadow-xs">
+                <div className="tab-photo-preview w-full h-48 sm:h-56 rounded-2xl bg-[#fff1ec] border-2 border-[#ffe2d8] overflow-hidden relative flex items-center justify-center shadow-xs">
                   {formImageUrl ? (
                     <div className="relative w-full h-full group">
                       <img
@@ -1142,7 +1142,7 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
               </div>
 
               {/* Drawer Footer Buttons */}
-              <div className="mt-auto pt-6 border-t border-[#ffe2d8] flex items-center justify-between gap-3.5">
+              <div className="tab-drawer-footer mt-auto pt-6 border-t border-[#ffe2d8] flex items-center justify-between gap-3.5">
                 {drawerMode === 'edit' && editingItem ? (
                   <button
                     type="button"

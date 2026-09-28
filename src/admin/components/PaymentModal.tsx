@@ -33,10 +33,10 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white rounded-xl shadow-2xl border border-[#ffe2d8] w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
+    <div className="tab-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="tab-modal-card bg-white rounded-xl shadow-2xl border border-[#ffe2d8] w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
-        <div className="bg-[#fff1ec] px-6 py-4 border-b border-[#ffe2d8] flex items-center justify-between">
+        <div className="tab-modal-header bg-[#fff1ec] px-6 py-4 border-b border-[#ffe2d8] flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-10 h-10 rounded-lg bg-[#dc2626] text-white flex items-center justify-center shadow-xs">
               <span className="material-symbols-outlined text-[22px]">receipt_long</span>
@@ -58,7 +58,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="p-6 overflow-y-auto flex flex-col gap-4">
+        <div className="tab-modal-body p-6 overflow-y-auto flex flex-col gap-4">
           {/* Method selector - as a tag/note */}
           <div className="flex flex-col gap-2">
             <div className="flex items-center justify-between">
@@ -185,7 +185,7 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
         </div>
 
         {/* Footer actions */}
-        <div className="bg-[#fff1ec] px-6 py-4 border-t border-[#ffe2d8] flex items-center justify-between gap-3">
+        <div className="tab-modal-footer bg-[#fff1ec] px-6 py-4 border-t border-[#ffe2d8] flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={onClose}

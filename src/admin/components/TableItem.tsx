@@ -225,7 +225,7 @@ export const TableItem: React.FC<TableItemProps> = ({
       id={`table-card-${table.id}`}
       type="button"
       onClick={() => onSelect(table, order)}
-      className={`table-card group relative p-2 rounded-xl transition-all text-center flex flex-col items-center justify-center min-h-[142px] sm:min-h-[150px] focus:outline-hidden ${getContainerClass()}`}
+      className={`table-card tab-table-card group relative p-2 rounded-xl transition-all text-center flex flex-col items-center justify-center min-h-[142px] sm:min-h-[150px] focus:outline-hidden ${getContainerClass()}`}
       title={`Стол №${table.id} (${table.seats} мест) - ${
         isOccupied ? `Заказ #${order?.id} (${formatNumber(order?.total || 0)} сум)` : 'Свободен'
       }`}

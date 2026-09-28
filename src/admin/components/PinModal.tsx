@@ -128,9 +128,9 @@ export const PinModal: React.FC<PinModalProps> = ({
       : 'Введите 4-значный PIN-код администратора для доступа к меню';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
+    <div className="tab-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
       <div
-        className={`bg-white rounded-2xl shadow-2xl border border-[#ffe2d8] w-full max-w-sm p-6 sm:p-7 flex flex-col items-center text-center gap-5 transition-transform ${
+        className={`tab-modal-card bg-white rounded-2xl shadow-2xl border border-[#ffe2d8] w-full max-w-sm p-6 sm:p-7 flex flex-col items-center text-center gap-5 transition-transform overflow-y-auto ${
           isShaking ? 'animate-shake' : ''
         }`}
       >

@@ -37,10 +37,10 @@ export const ConfirmFreeTableModal: React.FC<ConfirmFreeTableModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-2xl border border-[#ffe2d8] w-full max-w-md overflow-hidden flex flex-col">
+    <div className="tab-modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/45 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="tab-modal-card bg-white rounded-2xl shadow-2xl border border-[#ffe2d8] w-full max-w-md overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="bg-[#fff1ec] px-6 py-4 border-b border-[#ffe2d8] flex items-center justify-between">
+        <div className="tab-modal-header bg-[#fff1ec] px-6 py-4 border-b border-[#ffe2d8] flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div
               className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-xs text-white ${
@@ -70,7 +70,7 @@ export const ConfirmFreeTableModal: React.FC<ConfirmFreeTableModalProps> = ({
         </div>
 
         {/* Content */}
-        <div className="p-6 flex flex-col gap-4">
+        <div className="tab-modal-body p-6 flex flex-col gap-4">
           {hasUnpaidOrder ? (
             /* Unpaid order blocker */
             <div className="flex flex-col items-center text-center gap-3">
@@ -127,7 +127,7 @@ export const ConfirmFreeTableModal: React.FC<ConfirmFreeTableModalProps> = ({
         </div>
 
         {/* Footer Actions */}
-        <div className="bg-[#fff8f6] px-6 py-4 border-t border-[#ffe2d8] flex items-center justify-end gap-3">
+        <div className="tab-modal-footer bg-[#fff8f6] px-6 py-4 border-t border-[#ffe2d8] flex items-center justify-end gap-3">
           <button
             id="btn-cancel-free-table"
             type="button"
