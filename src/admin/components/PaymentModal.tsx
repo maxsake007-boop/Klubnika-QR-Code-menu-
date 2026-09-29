@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Order, Table } from '../types';
 import { formatMoney, formatWithDots } from '../utils/format';
+import { useModalScrollLock } from '../utils/scrollLock';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -17,6 +18,8 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   onClose,
   onConfirmPayment,
 }) => {
+  useModalScrollLock(isOpen);
+
   const [method, setMethod] = useState<'card' | 'cash' | 'sbp'>('card');
   const [freeTableAfterPayment, setFreeTableAfterPayment] = useState<boolean>(true);
   const [cashReceived, setCashReceived] = useState<string>('');
@@ -33,8 +36,13 @@ export const PaymentModal: React.FC<PaymentModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white rounded-xl shadow-2xl border border-[#ffe2d8] w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200 touch-none overscroll-none"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="bg-white rounded-xl shadow-2xl border border-[#ffe2d8] w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh] touch-auto modal-scroll-area overscroll-contain">
         {/* Header */}
         <div className="bg-[#fff1ec] px-6 py-4 border-b border-[#ffe2d8] flex items-center justify-between">
           <div className="flex items-center gap-2.5">

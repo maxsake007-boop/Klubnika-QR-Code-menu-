@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useModalScrollLock } from '../utils/scrollLock';
 
 export interface DeleteConfirmPinModalProps {
   isOpen: boolean;
@@ -21,6 +22,8 @@ export const DeleteConfirmPinModal: React.FC<DeleteConfirmPinModalProps> = ({
   onConfirm,
   onClose,
 }) => {
+  useModalScrollLock(isOpen);
+
   const [pin, setPin] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [isShaking, setIsShaking] = useState<boolean>(false);
@@ -127,9 +130,14 @@ export const DeleteConfirmPinModal: React.FC<DeleteConfirmPinModalProps> = ({
     : 'Позиция будет удалена из меню кассы. Для подтверждения введите PIN-код администратора.';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200 touch-none overscroll-none"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
       <div
-        className={`bg-white rounded-2xl shadow-2xl border border-[#ffe2d8] w-full max-w-sm p-6 sm:p-7 flex flex-col items-center text-center gap-4 transition-transform ${
+        className={`bg-white rounded-2xl shadow-2xl border border-[#ffe2d8] w-full max-w-sm p-6 sm:p-7 flex flex-col items-center text-center gap-4 transition-transform touch-auto modal-scroll-area overscroll-contain ${
           isShaking ? 'animate-shake' : ''
         }`}
       >

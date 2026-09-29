@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Order } from '../types';
+import { useModalScrollLock } from '../utils/scrollLock';
 
 interface TransferModalProps {
   isOpen: boolean;
@@ -18,6 +19,8 @@ export const TransferModal: React.FC<TransferModalProps> = ({
   onClose,
   onConfirmTransfer,
 }) => {
+  useModalScrollLock(isOpen);
+
   const [targetTableId, setTargetTableId] = useState<number | null>(null);
 
   if (!isOpen || !order || !currentTable) return null;
@@ -32,8 +35,13 @@ export const TransferModal: React.FC<TransferModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white rounded-xl shadow-2xl border border-[#ffe2d8] w-full max-w-md overflow-hidden flex flex-col">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200 touch-none overscroll-none"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="bg-white rounded-xl shadow-2xl border border-[#ffe2d8] w-full max-w-md overflow-hidden flex flex-col touch-auto modal-scroll-area overscroll-contain">
         {/* Header */}
         <div className="bg-[#fff1ec] px-6 py-4 border-b border-[#ffe2d8] flex items-center justify-between">
           <div className="flex items-center gap-2.5">

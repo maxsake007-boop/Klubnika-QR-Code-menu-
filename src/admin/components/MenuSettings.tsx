@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MenuItem } from '../types';
 import { formatMoney, formatWithDots } from '../utils/format';
+import { useModalScrollLock } from '../utils/scrollLock';
 import { PinModal } from './PinModal';
 import { DeleteConfirmPinModal } from './DeleteConfirmPinModal';
 
@@ -103,6 +104,8 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
     name: string;
     details?: string;
   } | null>(null);
+
+  useModalScrollLock(isDrawerOpen || isChangePinModalOpen || !!pendingDelete);
 
   // Close custom dropdown on click outside
   useEffect(() => {
@@ -824,45 +827,45 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
         </div>
       </div>
 
-      {/* Slide-Over Drawer: Product Add / Edit - EXPANDED SIZE & BOLD TYPOGRAPHY */}
+      {/* Slide-Over Drawer: Product Add / Edit - COMPACT & REFINED FOR TABLET & DESKTOP */}
       {isDrawerOpen && (
-        <div className="fixed inset-0 z-50 overflow-hidden flex justify-end animate-fade-in">
+        <div className="fixed inset-0 z-50 overflow-hidden flex justify-end animate-fade-in touch-none overscroll-none">
           {/* Backdrop */}
           <div
             className="fixed inset-0 bg-[#2a170f]/50 backdrop-blur-xs transition-opacity"
             onClick={handleCloseDrawer}
           />
 
-          <div className="relative w-screen max-w-xl sm:max-w-2xl bg-white shadow-2xl flex flex-col z-10 border-l border-[#ffe2d8] transform transition-transform duration-300 ease-in-out">
+          <div className="relative w-full max-w-md sm:max-w-lg bg-white shadow-2xl flex flex-col z-10 border-l border-[#ffe2d8] transform transition-transform duration-300 ease-in-out touch-auto">
             {/* Drawer Header */}
-            <div className="p-6 sm:p-7 bg-[#fff1ec] flex items-center justify-between border-b border-[#ffe2d8]">
+            <div className="px-5 py-3.5 bg-[#fff1ec] flex items-center justify-between border-b border-[#ffe2d8] shrink-0">
               <div className="flex flex-col gap-0.5">
-                <span className="text-[#dc2626] text-xs font-black uppercase tracking-wider">
+                <span className="text-[#dc2626] text-[10px] font-black uppercase tracking-wider">
                   Параметры карточки
                 </span>
-                <h3 className="text-2xl sm:text-3xl font-black text-[#2a170f] tracking-tight">
+                <h3 className="text-base sm:text-lg font-black text-[#2a170f] tracking-tight truncate max-w-[280px] sm:max-w-sm">
                   {drawerMode === 'add'
-                    ? 'Добавление нового товара'
+                    ? 'Новый товар'
                     : `Редактирование: ${formName || 'товара'}`}
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={handleCloseDrawer}
-                className="p-2.5 rounded-full hover:bg-[#ffe9e2] text-[#5c403c] hover:text-[#2a170f] transition-colors"
+                className="w-8 h-8 rounded-lg hover:bg-[#ffe9e2] text-[#5c403c] hover:text-[#2a170f] flex items-center justify-center transition-colors cursor-pointer shrink-0"
               >
-                <span className="material-symbols-outlined text-[26px]">close</span>
+                <span className="material-symbols-outlined text-[20px]">close</span>
               </button>
             </div>
 
             {/* Drawer Body Form */}
             <form
               onSubmit={handleSaveDrawer}
-              className="flex-1 overflow-y-auto p-6 sm:p-8 flex flex-col gap-6"
+              className="flex-1 overflow-y-auto p-4 sm:p-5 flex flex-col gap-3.5 modal-scroll-area overscroll-contain min-h-0"
             >
               {/* Name */}
-              <div className="flex flex-col gap-2">
-                <label className="text-sm font-black text-[#2a170f] uppercase tracking-wide">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-black text-[#2a170f] uppercase tracking-wide">
                   Название товара *
                 </label>
                 <input
@@ -871,13 +874,13 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
                   placeholder="напр. Круассан с шоколадом"
-                  className="w-full px-4 py-3.5 rounded-2xl bg-[#fff1ec] text-[#2a170f] font-bold text-base focus:outline-none focus:ring-2 focus:ring-[#dc2626]/30 border-2 border-[#ffe2d8] focus:bg-white transition-all"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#fff1ec] text-[#2a170f] font-bold text-sm focus:outline-none focus:ring-2 focus:ring-[#dc2626]/30 border border-[#ffe2d8] focus:bg-white transition-all"
                 />
               </div>
 
               {/* BEAUTIFUL CUSTOM DROPDOWN for Categories */}
-              <div className="flex flex-col gap-2 relative" ref={categoryDropdownRef}>
-                <label className="text-sm font-black text-[#2a170f] uppercase tracking-wide">
+              <div className="flex flex-col gap-1.5 relative" ref={categoryDropdownRef}>
+                <label className="text-xs font-black text-[#2a170f] uppercase tracking-wide">
                   Категория меню *
                 </label>
                 
@@ -885,18 +888,18 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsCategoryDropdownOpen((prev) => !prev)}
-                  className="w-full px-4 py-3.5 rounded-2xl bg-[#fff1ec] hover:bg-[#ffe9e2] text-[#2a170f] font-bold text-base border-2 border-[#ffe2d8] flex items-center justify-between shadow-xs transition-all text-left focus:outline-none focus:ring-2 focus:ring-[#dc2626]/30"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-[#fff1ec] hover:bg-[#ffe9e2] text-[#2a170f] font-bold text-sm border border-[#ffe2d8] flex items-center justify-between shadow-2xs transition-all text-left focus:outline-none focus:ring-2 focus:ring-[#dc2626]/30 cursor-pointer"
                 >
-                  <div className="flex items-center gap-2.5">
-                    <span className="material-symbols-outlined text-[#dc2626] text-[20px]">
+                  <div className="flex items-center gap-2">
+                    <span className="material-symbols-outlined text-[#dc2626] text-[18px]">
                       category
                     </span>
-                    <span className="font-bold text-[#2a170f]">
+                    <span className="font-bold text-[#2a170f] text-sm">
                       {currentCategoryObj.name}
                     </span>
                   </div>
                   <span
-                    className={`material-symbols-outlined text-[#5c403c] transition-transform duration-200 ${
+                    className={`material-symbols-outlined text-[#5c403c] text-[18px] transition-transform duration-200 ${
                       isCategoryDropdownOpen ? 'rotate-180 text-[#dc2626]' : ''
                     }`}
                   >
@@ -906,7 +909,7 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
 
                 {/* Dropdown Popover Menu */}
                 {isCategoryDropdownOpen && (
-                  <div className="absolute top-full left-0 right-0 mt-1.5 z-50 bg-white rounded-2xl shadow-xl border-2 border-[#ffe2d8] p-2 flex flex-col gap-1 overflow-hidden animate-fade-in">
+                  <div className="absolute top-full left-0 right-0 mt-1 z-50 bg-white rounded-xl shadow-xl border border-[#ffe2d8] p-1.5 flex flex-col gap-0.5 overflow-hidden animate-fade-in max-h-48 overflow-y-auto">
                     {categories.map((cat) => {
                       const isSelected = formCategoryKey === cat.key;
                       return (
@@ -916,15 +919,15 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
                             setFormCategoryKey(cat.key);
                             setIsCategoryDropdownOpen(false);
                           }}
-                          className={`flex items-center justify-between px-4 py-3 rounded-xl font-bold text-sm cursor-pointer transition-all ${
+                          className={`flex items-center justify-between px-3 py-2 rounded-lg font-bold text-xs cursor-pointer transition-all ${
                             isSelected
-                              ? 'bg-[#dc2626] text-white shadow-xs'
+                              ? 'bg-[#dc2626] text-white shadow-2xs'
                               : 'text-[#2a170f] hover:bg-[#fff1ec]'
                           }`}
                         >
-                          <span className="font-bold">{cat.name}</span>
+                          <span>{cat.name}</span>
                           {isSelected && (
-                            <span className="material-symbols-outlined text-white text-[18px]">
+                            <span className="material-symbols-outlined text-white text-[16px]">
                               check
                             </span>
                           )}
@@ -936,10 +939,10 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
               </div>
 
               {/* Price & Weight/Volume Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {/* Price in Sums (Auto-formatted with dots) */}
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-black text-[#2a170f] uppercase tracking-wide">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-black text-[#2a170f] uppercase tracking-wide">
                     Цена (сум) *
                   </label>
                   <div className="relative">
@@ -953,20 +956,20 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
                         setFormPrice(digits ? Number(digits) : '');
                       }}
                       placeholder="напр. 25.000"
-                      className="w-full px-4 py-3.5 rounded-2xl bg-[#fff1ec] text-[#2a170f] font-black text-lg focus:outline-none focus:ring-2 focus:ring-[#dc2626]/30 border-2 border-[#ffe2d8] focus:bg-white transition-all"
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#fff1ec] text-[#2a170f] font-black text-sm focus:outline-none focus:ring-2 focus:ring-[#dc2626]/30 border border-[#ffe2d8] focus:bg-white transition-all"
                     />
-                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-black text-[#5c403c] pointer-events-none">
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-black text-[#5c403c] pointer-events-none">
                       сум
                     </span>
                   </div>
                 </div>
 
                 {/* Weight / Volume with Unit Selector */}
-                <div className="flex flex-col gap-2">
-                  <label className="text-sm font-black text-[#2a170f] uppercase tracking-wide">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-xs font-black text-[#2a170f] uppercase tracking-wide">
                     Вес / Объем *
                   </label>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     {/* Amount Input with dots auto-formatting */}
                     <input
                       type="text"
@@ -977,11 +980,11 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
                         setFormWeightAmount(digits);
                       }}
                       placeholder="напр. 95"
-                      className="w-28 px-3.5 py-3.5 rounded-2xl bg-[#fff1ec] text-[#2a170f] font-black text-lg focus:outline-none focus:ring-2 focus:ring-[#dc2626]/30 border-2 border-[#ffe2d8] focus:bg-white transition-all"
+                      className="w-20 px-2.5 py-2.5 rounded-xl bg-[#fff1ec] text-[#2a170f] font-black text-sm focus:outline-none focus:ring-2 focus:ring-[#dc2626]/30 border border-[#ffe2d8] focus:bg-white transition-all"
                     />
 
                     {/* Unit Selector Toggle Pills */}
-                    <div className="flex-1 flex items-center bg-[#fff1ec] p-1 rounded-2xl border-2 border-[#ffe2d8] gap-1">
+                    <div className="flex-1 flex items-center bg-[#fff1ec] p-0.5 rounded-xl border border-[#ffe2d8] gap-0.5">
                       {(['г', 'мл', 'л', 'шт'] as const).map((unit) => {
                         const isSelected = formWeightUnit === unit;
                         return (
@@ -989,9 +992,9 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
                             key={unit}
                             type="button"
                             onClick={() => setFormWeightUnit(unit)}
-                            className={`flex-1 py-2 rounded-xl text-xs font-black transition-all ${
+                            className={`flex-1 py-1.5 rounded-lg text-xs font-black transition-all cursor-pointer ${
                               isSelected
-                                ? 'bg-[#dc2626] text-white shadow-xs'
+                                ? 'bg-[#dc2626] text-white shadow-2xs'
                                 : 'text-[#5c403c] hover:text-[#2a170f] hover:bg-[#ffe9e2]'
                             }`}
                           >
@@ -1004,26 +1007,26 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
                 </div>
               </div>
 
-              {/* Photo / Image URL Input & Large Preview Frame */}
-              <div className="flex flex-col gap-2.5">
+              {/* Photo / Image URL Input & Preview Frame */}
+              <div className="flex flex-col gap-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-sm font-black text-[#2a170f] uppercase tracking-wide">
+                  <label className="text-xs font-black text-[#2a170f] uppercase tracking-wide">
                     Фотография блюда
                   </label>
                   {formImageUrl && (
                     <button
                       type="button"
                       onClick={() => setFormImageUrl('')}
-                      className="text-xs text-[#b70011] hover:underline font-bold flex items-center gap-1"
+                      className="text-[11px] text-[#b70011] hover:underline font-bold flex items-center gap-0.5 cursor-pointer"
                     >
-                      <span className="material-symbols-outlined text-[15px]">delete</span>
+                      <span className="material-symbols-outlined text-[13px]">delete</span>
                       <span>Удалить фото</span>
                     </button>
                   )}
                 </div>
 
-                {/* Large Photo Preview Frame */}
-                <div className="w-full h-48 sm:h-56 rounded-2xl bg-[#fff1ec] border-2 border-[#ffe2d8] overflow-hidden relative flex items-center justify-center shadow-xs">
+                {/* Compact Photo Preview Frame */}
+                <div className="w-full h-28 sm:h-32 rounded-xl bg-[#fff1ec] border border-[#ffe2d8] overflow-hidden relative flex items-center justify-center shadow-2xs">
                   {formImageUrl ? (
                     <div className="relative w-full h-full group">
                       <img
@@ -1035,56 +1038,46 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
                         }}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3.5">
-                        <span className="text-white text-xs font-bold bg-black/40 px-2.5 py-1 rounded-lg backdrop-blur-xs">
-                          Фото будет отображаться в карточке меню
-                        </span>
-                      </div>
-                      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-xs text-[#006e2d] text-xs font-black px-2.5 py-1 rounded-full shadow-xs border border-[#ffe2d8] flex items-center gap-1">
-                        <span className="material-symbols-outlined text-[14px]">check_circle</span>
-                        <span>Фото загружено</span>
+                      <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-xs text-[#006e2d] text-[10px] font-black px-2 py-0.5 rounded-full shadow-2xs border border-[#ffe2d8] flex items-center gap-1">
+                        <span className="material-symbols-outlined text-[12px]">check_circle</span>
+                        <span>Загружено</span>
                       </div>
                     </div>
                   ) : (
-                    <div className="flex flex-col items-center justify-center text-center p-6 gap-2 text-[#916f6b]">
-                      <div className="w-14 h-14 rounded-full bg-white/80 border border-[#ffe2d8] flex items-center justify-center shadow-xs">
-                        <span className="material-symbols-outlined text-[#dc2626] text-[32px]">
+                    <div className="flex flex-col items-center justify-center text-center p-3 gap-1 text-[#916f6b]">
+                      <div className="w-9 h-9 rounded-full bg-white/80 border border-[#ffe2d8] flex items-center justify-center shadow-2xs">
+                        <span className="material-symbols-outlined text-[#dc2626] text-[20px]">
                           add_photo_alternate
                         </span>
                       </div>
-                      <div className="flex flex-col gap-0.5">
-                        <span className="text-sm font-black text-[#2a170f]">
-                          Здесь отобразится фотография блюда
-                        </span>
-                        <span className="text-xs font-medium text-[#5c403c]">
-                          Вставьте ссылку на изображение или выберите файл с устройства
-                        </span>
-                      </div>
+                      <span className="text-xs font-black text-[#2a170f]">
+                        Вставьте ссылку или выберите файл
+                      </span>
                     </div>
                   )}
                 </div>
 
                 {/* Input Controls: URL and File upload */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                <div className="flex items-center gap-2">
                   <div className="relative flex-1">
-                    <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[#916f6b] text-[18px]">
+                    <span className="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-[#916f6b] text-[16px]">
                       link
                     </span>
                     <input
                       type="url"
                       value={formImageUrl}
                       onChange={(e) => setFormImageUrl(e.target.value)}
-                      placeholder="Вставьте ссылку на фото (https://...)"
-                      className="w-full pl-10 pr-4 py-3 rounded-2xl bg-[#fff1ec] text-[#2a170f] font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#dc2626]/30 border-2 border-[#ffe2d8] focus:bg-white transition-all"
+                      placeholder="Ссылка на фото (https://...)"
+                      className="w-full pl-8 pr-3 py-2 rounded-xl bg-[#fff1ec] text-[#2a170f] font-medium text-xs focus:outline-none focus:ring-2 focus:ring-[#dc2626]/30 border border-[#ffe2d8] focus:bg-white transition-all"
                     />
                   </div>
 
                   {/* Local file picker */}
-                  <label className="cursor-pointer px-4 py-3 rounded-2xl bg-white hover:bg-[#fff1ec] border-2 border-[#ffe2d8] text-[#2a170f] font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all active:scale-95 shrink-0 shadow-2xs">
-                    <span className="material-symbols-outlined text-[#dc2626] text-[18px]">
+                  <label className="cursor-pointer px-3 py-2 rounded-xl bg-white hover:bg-[#fff1ec] border border-[#ffe2d8] text-[#2a170f] font-bold text-xs flex items-center justify-center gap-1.5 transition-all active:scale-95 shrink-0 shadow-2xs">
+                    <span className="material-symbols-outlined text-[#dc2626] text-[16px]">
                       upload_file
                     </span>
-                    <span>Выбрать файл</span>
+                    <span>Файл</span>
                     <input
                       type="file"
                       accept="image/*"
@@ -1107,27 +1100,27 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
               </div>
 
               {/* Description */}
-              <div className="flex flex-col gap-2">
-                <label className="text-sm font-black text-[#2a170f] uppercase tracking-wide">
+              <div className="flex flex-col gap-1.5">
+                <label className="text-xs font-black text-[#2a170f] uppercase tracking-wide">
                   Описание для кассы и чека
                 </label>
                 <textarea
-                  rows={3}
+                  rows={2}
                   value={formDesc}
                   onChange={(e) => setFormDesc(e.target.value)}
                   placeholder="Состав, особенности подачи, информация об аллергенах..."
-                  className="w-full p-4 rounded-2xl bg-[#fff1ec] text-[#2a170f] font-bold text-sm focus:outline-none focus:ring-2 focus:ring-[#dc2626]/30 resize-none border-2 border-[#ffe2d8] focus:bg-white transition-all"
+                  className="w-full p-2.5 rounded-xl bg-[#fff1ec] text-[#2a170f] font-medium text-xs focus:outline-none focus:ring-2 focus:ring-[#dc2626]/30 resize-none border border-[#ffe2d8] focus:bg-white transition-all"
                 />
               </div>
 
               {/* Availability Switch */}
-              <div className="flex items-center justify-between p-5 bg-[#fff1ec] rounded-2xl border-2 border-[#ffe2d8]">
+              <div className="flex items-center justify-between p-3 bg-[#fff1ec] rounded-xl border border-[#ffe2d8]">
                 <div className="flex flex-col">
-                  <span className="font-black text-base text-[#2a170f]">
+                  <span className="font-black text-xs text-[#2a170f]">
                     Доступен для заказа
                   </span>
-                  <span className="text-xs font-bold text-[#5c403c]">
-                    Показывать позицию на кассе и разрешать добавление в заказ
+                  <span className="text-[10px] text-[#5c403c]">
+                    Показывать позицию на кассе
                   </span>
                 </div>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -1137,12 +1130,12 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
                     onChange={(e) => setFormIsAvailable(e.target.checked)}
                     className="sr-only peer"
                   />
-                  <div className="w-13 h-7 bg-[#ffdbcd] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[3px] after:left-[3px] after:bg-white after:rounded-full after:h-5.5 after:w-5.5 after:transition-all peer-checked:bg-[#006e2d] shadow-inner" />
+                  <div className="w-10 h-5.5 bg-[#ffdbcd] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4.5 after:w-4.5 after:transition-all peer-checked:bg-[#006e2d] shadow-inner" />
                 </label>
               </div>
 
               {/* Drawer Footer Buttons */}
-              <div className="mt-auto pt-6 border-t border-[#ffe2d8] flex items-center justify-between gap-3.5">
+              <div className="mt-auto pt-3 border-t border-[#ffe2d8] flex items-center justify-between gap-2.5 shrink-0">
                 {drawerMode === 'edit' && editingItem ? (
                   <button
                     type="button"
@@ -1154,30 +1147,30 @@ export const MenuSettings: React.FC<MenuSettingsProps> = ({
                         editingItem.categoryName,
                       )
                     }
-                    className="px-4 py-3 rounded-full bg-[#ffdad6]/70 hover:bg-[#ffdad6] text-[#b70011] font-black text-xs transition-all flex items-center gap-1.5 cursor-pointer border border-[#ffb4ab]"
+                    className="px-3 py-2 rounded-xl bg-[#ffdad6]/70 hover:bg-[#ffdad6] text-[#b70011] font-bold text-xs transition-all flex items-center gap-1 cursor-pointer border border-[#ffb4ab]"
                     title="Удалить товар из меню (требуется PIN)"
                   >
-                    <span className="material-symbols-outlined text-[18px]">delete</span>
-                    <span>Удалить товар</span>
+                    <span className="material-symbols-outlined text-[16px]">delete</span>
+                    <span>Удалить</span>
                   </button>
                 ) : (
                   <div />
                 )}
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={handleCloseDrawer}
-                    className="px-6 py-3.5 rounded-full bg-[#fff1ec] hover:bg-[#ffe9e2] text-[#2a170f] font-black text-sm transition-all border border-[#ffe2d8]"
+                    className="px-4 py-2 rounded-xl bg-[#fff1ec] hover:bg-[#ffe9e2] text-[#2a170f] font-bold text-xs transition-all border border-[#ffe2d8] cursor-pointer"
                   >
                     Отмена
                   </button>
                   <button
                     type="submit"
-                    className="px-8 py-3.5 rounded-full bg-[#dc2626] hover:bg-[#b70011] text-white font-black text-sm shadow-md transition-all active:scale-95 flex items-center gap-2"
+                    className="px-5 py-2 rounded-xl bg-[#dc2626] hover:bg-[#b70011] text-white font-bold text-xs shadow-xs transition-all active:scale-95 flex items-center gap-1.5 cursor-pointer"
                   >
-                    <span className="material-symbols-outlined text-[20px]">save</span>
-                    <span>Сохранить изменения</span>
+                    <span className="material-symbols-outlined text-[16px]">save</span>
+                    <span>Сохранить</span>
                   </button>
                 </div>
               </div>

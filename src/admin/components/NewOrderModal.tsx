@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, MenuItem, Order, OrderItem } from '../types';
 import { formatMoney } from '../utils/format';
+import { useModalScrollLock } from '../utils/scrollLock';
 
 interface NewOrderModalProps {
   isOpen: boolean;
@@ -19,6 +20,8 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
   onClose,
   onSaveOrder,
 }) => {
+  useModalScrollLock(isOpen);
+
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [cart, setCart] = useState<Record<string, { item: MenuItem; qty: number; note?: string }>>({});
   const [generalNotes, setGeneralNotes] = useState<string>('');
@@ -102,12 +105,17 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-2xl border border-[#ffe2d8] w-full max-w-4xl overflow-hidden flex flex-col h-[90vh]">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/40 backdrop-blur-xs animate-in fade-in duration-200 touch-none overscroll-none"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="bg-white rounded-2xl shadow-2xl border border-[#ffe2d8] w-full max-w-4xl overflow-hidden flex flex-col h-[90vh] touch-auto">
         {/* Header */}
-        <div className="bg-[#fff1ec] px-6 py-4 border-b border-[#ffe2d8] flex items-center justify-between">
+        <div className="shrink-0 bg-[#fff1ec] px-5 sm:px-6 py-3.5 sm:py-4 border-b border-[#ffe2d8] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#dc2626] text-white flex items-center justify-center shadow-xs">
+            <div className="w-10 h-10 rounded-xl bg-[#dc2626] text-white flex items-center justify-center shadow-xs shrink-0">
               <span className="material-symbols-outlined text-[22px]">restaurant_menu</span>
             </div>
             <div>
@@ -128,20 +136,20 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-lg bg-white hover:bg-[#ffe2d8] text-[#5c403c] flex items-center justify-center transition-colors"
+            className="w-8 h-8 rounded-lg bg-white hover:bg-[#ffe2d8] text-[#5c403c] flex items-center justify-center transition-colors cursor-pointer shrink-0"
           >
             <span className="material-symbols-outlined text-[20px]">close</span>
           </button>
         </div>
 
         {/* Content split in 2 columns */}
-        <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
+        <div className="flex-1 flex flex-col md:flex-row overflow-hidden min-h-0">
           {/* Left: Menu catalog */}
-          <div className="flex-1 flex flex-col p-4 sm:p-5 border-b md:border-b-0 md:border-r border-[#ffe2d8] overflow-y-auto">
-            {/* Automatic Table Info Banner (No dropdown, No waiter/pos/qr toggle) */}
-            <div className="flex flex-wrap items-center justify-between gap-3 mb-3 bg-[#fff8f6] p-3 rounded-xl border border-[#ffe2d8]">
+          <div className="flex-1 flex flex-col p-4 sm:p-5 border-b md:border-b-0 md:border-r border-[#ffe2d8] overflow-hidden min-h-0">
+            {/* Automatic Table Info Banner */}
+            <div className="shrink-0 flex flex-wrap items-center justify-between gap-3 mb-3 bg-[#fff8f6] p-3 rounded-xl border border-[#ffe2d8]">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-[#ffe2d8] text-[#dc2626] font-black text-sm flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-[#ffe2d8] text-[#dc2626] font-black text-sm flex items-center justify-center shrink-0">
                   №{table.id}
                 </div>
                 <div>
@@ -157,21 +165,21 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
               </div>
 
               {existingOrder && (
-                <div className="text-right">
+                <div className="text-right shrink-0">
                   <span className="text-[10px] font-bold text-[#5c403c] block">В чеке стола:</span>
                   <span className="text-xs font-black text-[#dc2626]">{formatMoney(existingOrder.total)}</span>
                 </div>
               )}
             </div>
 
-            {/* Category tabs */}
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-2 mb-3">
+            {/* Category tabs: strictly pinned, no scroll conflict, visible 100% */}
+            <div className="shrink-0 flex items-center gap-1.5 overflow-x-auto pt-1 pb-2 mb-3 no-scrollbar">
               {categories.map((c) => (
                 <button
                   key={c.id}
                   type="button"
                   onClick={() => setActiveCategory(c.id)}
-                  className={`px-3.5 py-1 rounded-full text-xs font-bold whitespace-nowrap transition-all ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap shrink-0 transition-all cursor-pointer ${
                     activeCategory === c.id
                       ? 'bg-[#dc2626] text-white shadow-xs'
                       : 'bg-[#fff1ec] text-[#5c403c] hover:text-[#2a170f]'
@@ -182,70 +190,72 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
               ))}
             </div>
 
-            {/* Menu Items Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 overflow-y-auto pr-1">
-              {filteredMenuItems.map((item) => {
-                const inCart = cart[item.id];
-                return (
-                  <div
-                    key={item.id}
-                    className="p-3 rounded-xl bg-[#fff8f6] border border-[#ffe2d8] flex flex-col justify-between hover:border-[#dc2626]/40 transition-colors"
-                  >
-                    <div>
-                      <div className="flex items-start justify-between gap-1 mb-1">
-                        <h4 className="text-xs font-bold text-[#2a170f] leading-snug">{item.name}</h4>
-                        {item.isFresh && (
-                          <span className="px-1.5 py-0.2 rounded-full bg-[#7cf994] text-[#007230] text-[9px] font-bold">
-                            Свежее
-                          </span>
-                        )}
+            {/* Menu Items Grid: only this scrolls */}
+            <div className="flex-1 overflow-y-auto min-h-0 pr-1 modal-scroll-area overscroll-contain">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {filteredMenuItems.map((item) => {
+                  const inCart = cart[item.id];
+                  return (
+                    <div
+                      key={item.id}
+                      className="p-3 rounded-xl bg-[#fff8f6] border border-[#ffe2d8] flex flex-col justify-between hover:border-[#dc2626]/40 transition-colors"
+                    >
+                      <div>
+                        <div className="flex items-start justify-between gap-1 mb-1">
+                          <h4 className="text-xs font-bold text-[#2a170f] leading-snug">{item.name}</h4>
+                          {item.isFresh && (
+                            <span className="px-1.5 py-0.2 rounded-full bg-[#7cf994] text-[#007230] text-[9px] font-bold shrink-0">
+                              Свежее
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-[11px] text-[#5c403c] line-clamp-1 mb-2">{item.desc}</p>
                       </div>
-                      <p className="text-[11px] text-[#5c403c] line-clamp-1 mb-2">{item.desc}</p>
-                    </div>
 
-                    <div className="flex items-center justify-between pt-1 border-t border-[#ffe2d8]/60 mt-1">
-                      <span className="text-xs font-extrabold text-[#dc2626]">{formatMoney(item.price)}</span>
+                      <div className="flex items-center justify-between pt-1 border-t border-[#ffe2d8]/60 mt-1">
+                        <span className="text-xs font-extrabold text-[#dc2626]">{formatMoney(item.price)}</span>
 
-                      {inCart ? (
-                        <div className="flex items-center gap-1 bg-[#ffe2d8] rounded-full p-0.5">
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveItem(item.id)}
-                            className="w-5 h-5 rounded-full bg-white text-[#dc2626] text-xs font-bold flex items-center justify-center shadow-2xs hover:bg-[#dc2626] hover:text-white transition-colors"
-                          >
-                            -
-                          </button>
-                          <span className="text-xs font-bold text-[#2a170f] w-5 text-center">{inCart.qty}</span>
+                        {inCart ? (
+                          <div className="flex items-center gap-1 bg-[#ffe2d8] rounded-full p-0.5">
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveItem(item.id)}
+                              className="w-5 h-5 rounded-full bg-white text-[#dc2626] text-xs font-bold flex items-center justify-center shadow-2xs hover:bg-[#dc2626] hover:text-white transition-colors cursor-pointer"
+                            >
+                              -
+                            </button>
+                            <span className="text-xs font-bold text-[#2a170f] w-5 text-center">{inCart.qty}</span>
+                            <button
+                              type="button"
+                              onClick={() => handleAddItem(item)}
+                              className="w-5 h-5 rounded-full bg-[#dc2626] text-white text-xs font-bold flex items-center justify-center shadow-2xs hover:bg-[#b70011] transition-colors cursor-pointer"
+                            >
+                              +
+                            </button>
+                          </div>
+                        ) : (
                           <button
                             type="button"
                             onClick={() => handleAddItem(item)}
-                            className="w-5 h-5 rounded-full bg-[#dc2626] text-white text-xs font-bold flex items-center justify-center shadow-2xs hover:bg-[#b70011] transition-colors"
+                            disabled={!item.isAvailable}
+                            className="px-3 py-1 rounded-full bg-[#dc2626] hover:bg-[#b70011] text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 disabled:opacity-40 cursor-pointer"
                           >
-                            +
+                            <span className="material-symbols-outlined text-[14px]">add</span>
+                            <span>{item.isAvailable ? 'Добавить' : 'Стоп'}</span>
                           </button>
-                        </div>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => handleAddItem(item)}
-                          disabled={!item.isAvailable}
-                          className="px-3 py-1 rounded-full bg-[#dc2626] hover:bg-[#b70011] text-white text-xs font-bold transition-all shadow-xs flex items-center gap-1 disabled:opacity-40"
-                        >
-                          <span className="material-symbols-outlined text-[14px]">add</span>
-                          <span>{item.isAvailable ? 'Добавить' : 'Стоп'}</span>
-                        </button>
-                      )}
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
 
           {/* Right: Cart and Confirmation */}
-          <div className="w-full md:w-84 bg-[#fff8f6] p-4 sm:p-5 flex flex-col justify-between overflow-y-auto">
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center justify-between pb-2 border-b border-[#ffe2d8]">
+          <div className="w-full md:w-84 bg-[#fff8f6] p-4 sm:p-5 flex flex-col justify-between overflow-hidden min-h-0">
+            <div className="flex-1 flex flex-col gap-3 overflow-y-auto min-h-0 modal-scroll-area overscroll-contain pr-1">
+              <div className="shrink-0 flex items-center justify-between pb-2 border-b border-[#ffe2d8]">
                 <h3 className="text-sm font-black text-[#2a170f] flex items-center gap-1.5">
                   <span className="material-symbols-outlined text-[18px] text-[#dc2626]">receipt_long</span>
                   <span>Чек Стола №{table.id}</span>
@@ -257,7 +267,7 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
 
               {/* Show Existing Items on this table if active order exists */}
               {existingOrder && existingOrder.items.length > 0 && (
-                <div className="flex flex-col gap-1.5 pb-2 border-b border-[#ffe2d8]">
+                <div className="shrink-0 flex flex-col gap-1.5 pb-2 border-b border-[#ffe2d8]">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-black text-[#5c403c] uppercase tracking-wider">
                       Уже в заказе стола ({existingOrder.items.length}):
@@ -266,14 +276,14 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
                       {formatMoney(existingTotal)}
                     </span>
                   </div>
-                  <div className="flex flex-col gap-1 max-h-[140px] overflow-y-auto pr-1">
+                  <div className="flex flex-col gap-1 max-h-[130px] overflow-y-auto pr-1 modal-scroll-area overscroll-contain">
                     {existingOrder.items.map((item) => (
                       <div
                         key={item.id}
                         className="flex items-center justify-between p-1.5 px-2 rounded-lg bg-white/70 border border-[#ffe2d8] text-xs"
                       >
                         <div className="flex items-center gap-1.5 flex-1 pr-2 truncate">
-                          <span className="text-[10px] font-bold text-[#dc2626] bg-[#ffe2d8] px-1.5 py-0.2 rounded-md">
+                          <span className="text-[10px] font-bold text-[#dc2626] bg-[#ffe2d8] px-1.5 py-0.2 rounded-md shrink-0">
                             {item.qty}×
                           </span>
                           <span className="text-[#2a170f] font-medium truncate">{item.name}</span>
@@ -289,7 +299,7 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
 
               {/* Newly added items in this session */}
               <div className="flex flex-col gap-1.5">
-                <div className="flex items-center justify-between">
+                <div className="shrink-0 flex items-center justify-between">
                   <span className="text-[11px] font-black text-[#2a170f] uppercase tracking-wider">
                     {existingOrder ? 'Новые позиции к добавлению:' : 'Позиции нового заказа:'}
                   </span>
@@ -315,7 +325,7 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
                     </p>
                   </div>
                 ) : (
-                  <div className="flex flex-col gap-1.5 max-h-[190px] overflow-y-auto pr-1">
+                  <div className="flex flex-col gap-1.5 max-h-[180px] overflow-y-auto pr-1 modal-scroll-area overscroll-contain">
                     {cartList.map(({ item, qty }) => (
                       <div
                         key={item.id}
@@ -333,7 +343,7 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
                           <button
                             type="button"
                             onClick={() => handleRemoveItem(item.id)}
-                            className="w-5 h-5 rounded-full bg-[#ffe2d8] text-[#dc2626] text-xs font-bold flex items-center justify-center hover:bg-[#dc2626] hover:text-white transition-colors"
+                            className="w-5 h-5 rounded-full bg-[#ffe2d8] text-[#dc2626] text-xs font-bold flex items-center justify-center hover:bg-[#dc2626] hover:text-white transition-colors cursor-pointer"
                           >
                             -
                           </button>
@@ -343,7 +353,7 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
                           <button
                             type="button"
                             onClick={() => handleAddItem(item)}
-                            className="w-5 h-5 rounded-full bg-[#dc2626] text-white text-xs font-bold flex items-center justify-center hover:bg-[#b70011] transition-colors"
+                            className="w-5 h-5 rounded-full bg-[#dc2626] text-white text-xs font-bold flex items-center justify-center hover:bg-[#b70011] transition-colors cursor-pointer"
                           >
                             +
                           </button>
@@ -358,7 +368,7 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
               </div>
 
               {/* Special Note */}
-              <div className="pt-1">
+              <div className="pt-1 shrink-0">
                 <label className="text-[11px] font-bold text-[#5c403c] block mb-1">
                   Комментарий (пожелания гостя):
                 </label>
@@ -373,7 +383,7 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
             </div>
 
             {/* Bottom calculation & Submit */}
-            <div className="pt-3 border-t border-[#ffe2d8] flex flex-col gap-2.5">
+            <div className="shrink-0 pt-3 border-t border-[#ffe2d8] flex flex-col gap-2.5">
               {existingOrder ? (
                 <div className="flex flex-col gap-1 bg-[#fff1ec] p-2.5 rounded-xl border border-[#ffe2d8]">
                   <div className="flex justify-between text-xs text-[#5c403c]">
@@ -401,7 +411,7 @@ export const NewOrderModal: React.FC<NewOrderModalProps> = ({
                 type="button"
                 disabled={cartList.length === 0}
                 onClick={handleSubmit}
-                className="w-full py-3 px-4 rounded-full bg-[#dc2626] hover:bg-[#b70011] text-white text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-1.5 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-full py-3 px-4 rounded-full bg-[#dc2626] hover:bg-[#b70011] text-white text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-1.5 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
               >
                 <span className="material-symbols-outlined text-[18px]">check</span>
                 <span>
