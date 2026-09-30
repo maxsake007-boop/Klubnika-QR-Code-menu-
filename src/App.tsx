@@ -44,7 +44,7 @@ export default function App() {
     setIsAdminAuthenticated(false);
   };
 
-  const isAdminRoute = currentPath.startsWith('/admin');
+  const isAdminRoute = currentPath.startsWith('/admin') || currentPath.includes('/admin');
 
   useEffect(() => {
     if (isAdminRoute) {
